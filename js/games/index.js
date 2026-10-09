@@ -64,4 +64,32 @@ export const GAMES = [
     desc: 'Skaičiai nuo 1 iki 4 neturi kartotis.',
     load: () => import('./sudoku.js'),
   },
+  {
+    id: 'flood',
+    icon: '🎨',
+    title: 'Spalvų užliejimas',
+    desc: 'Užliekite lentą viena spalva.',
+    load: () => import('./flood.js'),
+  },
+  {
+    id: 'tiles',
+    icon: '🔢',
+    title: 'Plytelės',
+    desc: 'Išrikiuokite plyteles eilės tvarka.',
+    load: () => import('./tiles.js'),
+  },
+  {
+    id: 'pipes',
+    icon: '🚰',
+    title: 'Vamzdžiai',
+    desc: 'Sujunkite visus vamzdžius su vandens šaltiniu.',
+    load: () => import('./pipes.js'),
+  },
+  {
+    id: 'black-white',
+    icon: '⚫',
+    title: 'Juoda ir balta',
+    desc: 'Užpildykite lentelę juodais ir baltais langeliais.',
+    load: () => import('./blackwhite.js'),
+  },
 ];

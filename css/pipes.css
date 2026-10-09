@@ -1,0 +1,65 @@
+/* ---------- vamzdžiai ---------- */
+
+.pp-board {
+  display: grid;
+  gap: 6px;
+  padding: 0.7rem;
+  background: var(--line);
+  border-radius: 1.2rem;
+}
+
+.pp-tile {
+  position: relative;
+  width: clamp(4.5rem, 17vw, 7rem);
+  height: clamp(4.5rem, 17vw, 7rem);
+  padding: 0;
+  overflow: hidden;
+  color: #6b7280;
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: 0.8rem;
+}
+
+.pp-tile.wet {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.pp-tile:hover:not(:disabled) { border-color: var(--focus); }
+
+.pp-tile.source { border-color: var(--good); border-width: 6px; }
+.pp-tile.hint { animation: pulse 1s ease-in-out infinite; outline: 6px solid var(--hint); outline-offset: 2px; z-index: 1; }
+
+.pp-rot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.18s ease;
+}
+
+.pp-svg { display: block; width: 100%; height: 100%; }
+
+.pp-pipe {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 26;
+  stroke-linecap: butt;
+}
+
+.pp-hub { fill: currentColor; }
+
+.pp-src {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(1.6rem, 6vw, 2.6rem);
+  line-height: 1;
+  padding: 0.1rem;
+  background: #fff;
+  border: 3px solid var(--good);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pp-tile:disabled { cursor: var(--cursor-btn); }
