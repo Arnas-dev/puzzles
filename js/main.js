@@ -1,5 +1,5 @@
 import { GAMES } from './games/index.js';
-import { h } from './ui.js';
+import { h, watchDocks } from './ui.js';
 import { load, save } from './lib/store.js';
 import { initCursor } from './cursor.js';
 
@@ -12,9 +12,14 @@ let cleanup = null;
 let routeToken = 0;
 const cursor = initCursor();
 
+// Bandymų gaidelė: ?scale=0|1|2 taikoma šiam puslapiui ir nesaugoma.
+const forced = new URLSearchParams(location.search).get('scale');
+const forcedIdx = forced !== null && /^[0-2]$/.test(forced) ? Number(forced) : null;
+if (forcedIdx !== null) scaleIdx = forcedIdx;
+
 function applyScale() {
   document.documentElement.style.setProperty('--scale', String(SCALES[scaleIdx]));
-  save('scale', scaleIdx);
+  if (forcedIdx === null) save('scale', scaleIdx);
 }
 
 function doneSet() {
@@ -108,5 +113,6 @@ async function route() {
 }
 
 applyScale();
+watchDocks(app);
 window.addEventListener('hashchange', route);
 route();

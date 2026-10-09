@@ -252,7 +252,7 @@ export function mount(root, ctx) {
 
     advance();
     root.replaceChildren(
-      h('section', { class: 'game' },
+      h('section', { class: 'game cw-game' },
         h('h1', { class: 'game-title' }, 'Kryžiažodis'),
         progressBar(puzzleIdx, CROSSWORDS.length, 'Kryžiažodis'),
         h('p', { class: 'instruction' }, 'Spustelėkite žodžio aprašymą arba langelį, tada pasirinkite raidę.'),

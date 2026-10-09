@@ -67,6 +67,37 @@ export function finishView({ text = 'Visos užduotys atliktos.', onAgain, onExit
   );
 }
 
+// Apatinė juosta (.dock) segama prie ekrano apačios (klasė „pinned“) tik tada, kai tai neuždengia turinio.
+// Po turiniu esanti juosta segama tik jei elemento prieš ją apačia (ties slinkimu 0) telpa virš juostos;
+// šalia lentos esanti tik jei jos viršus telpa taip, kad ji nepakiltų virš savo vietos. Kitaip lieka įprastame sraute.
+export function pinDock(dock) {
+  dock.classList.remove('pinned');
+  if (window.innerWidth <= 640) return;
+  const prev = dock.previousElementSibling;
+  if (!prev || getComputedStyle(prev).display === 'contents') return;
+  const pr = prev.getBoundingClientRect();
+  const dr = dock.getBoundingClientRect();
+  const sideBySide = dr.top + 1 < pr.bottom;
+  // Šalia lentos: juosta neturi iškilti virš savo vietos (nepaslėpti pavadinimo); po turiniu: virš juostos telpa elementas prieš ją.
+  const margin = sideBySide ? 0 : parseFloat(getComputedStyle(prev).marginBottom) || 0;
+  const limit = sideBySide ? dr.top : pr.bottom + margin;
+  if (limit + window.scrollY <= window.innerHeight - dr.height) dock.classList.add('pinned');
+}
+
+// Perskaičiuoja visas juostas po kiekvieno perpiešimo, lango ar raidžių dydžio pasikeitimo.
+export function watchDocks(app) {
+  const run = () => app.querySelectorAll('.dock').forEach(pinDock);
+  const ro = new ResizeObserver(run);
+  const mo = new MutationObserver(() => {
+    ro.disconnect();
+    app.querySelectorAll('.game, .dock').forEach((el) => ro.observe(el));
+    run();
+  });
+  mo.observe(app, { childList: true, subtree: true });
+  window.addEventListener('resize', run);
+  run();
+}
+
 // Dvigubo spustelėjimo apsauga: po „Toliau“ trumpai ignoruojame spustelėjimus.
 export function makeLock() {
   let until = 0;

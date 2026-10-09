@@ -701,13 +701,14 @@ body.no-halo #halo { display: none; }
 .cw-panel .cw-letter-help,
 .sd-choices .cw-letter-help { margin: 0.25rem 0; }
 
-/* Telefonas: juosta lieka paprastame sraute, kaip ir buvo. */
+/* Juosta tampa „sticky“ tik tada, kai js/ui.js (pinDock) apskaičiuoja, kad ji neuždengs klausimo ar lentos
+   (klasė .pinned). Kitaip ji lieka paprastame sraute ir pasiekiama įprastu slinkimu. Telefone niekada nesegama. */
 @media (min-width: 641px) {
-  .dock {
+  .dock { align-self: flex-start; }
+  .dock.pinned {
     position: sticky;
     bottom: 0;
     z-index: 20;
-    align-self: flex-start;
     box-shadow: 0 -0.6rem 0.8rem -0.5rem rgba(0, 0, 0, 0.25);
   }
 }
@@ -746,15 +747,29 @@ body.no-halo #halo { display: none; }
   .sd-area ~ .dock .options.numbers .opt { min-width: 0; }
   .sd-area ~ .dock .cw-letter-help { text-align: center; }
 
-  /* Kryžiažodis: aprašymas kairėje, raidės dešinėje, kad juosta būtų žema. */
-  .cw-panel {
+  /* Kryžiažodis: lentelė kairėje; dešinėje raidės, atsiliepimas ir mygtukai, po jais aprašymai.
+     .cw-area ir .cw-layout tampa „contents“, kad lentelė, juosta ir aprašymai taptų vieno tinklelio nariais. */
+  .cw-game {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     column-gap: 1.5rem;
-    align-items: center;
+    align-items: start;
   }
-  .cw-panel > .cw-letter-help { grid-column: 1; text-align: left; }
-  .cw-panel > .options { grid-column: 2; grid-row: 1 / span 2; }
+  .cw-game > .game-title { grid-column: 1 / -1; grid-row: 1; }
+  .cw-game > .progress { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+  .cw-game > .instruction { grid-column: 1 / -1; grid-row: 3; }
+  .cw-game > .cw-area,
+  .cw-game .cw-layout { display: contents; }
+  .cw-game .cw-grid { grid-column: 1; grid-row: 4 / span 2; }
+  .cw-game > .dock {
+    grid-column: 2;
+    grid-row: 4;
+    border-top: 0;
+    border-left: 4px solid var(--line);
+    padding: 0 0 0.5rem 1.25rem;
+  }
+  .cw-game .cw-clues { grid-column: 2; grid-row: 5; padding-left: 1.25rem; }
+  .cw-panel { display: block; }
 }
 
 /* Žemi ekranai (nešiojamieji): sutankiname viršų, bet tekstas ir mygtukai išlieka dideli. */
