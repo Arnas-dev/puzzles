@@ -24,7 +24,7 @@ export function mount(root, ctx) {
     const feedback = createFeedback();
     const boardEl = h('div', {
       class: 'fl-board',
-      style: `grid-template-columns: repeat(${n}, auto)`,
+      style: `grid-template-columns: repeat(${n}, auto); --n: ${n}`,
       role: 'img',
       'aria-label': 'Spalvų lenta',
     });

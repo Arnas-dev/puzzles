@@ -50,7 +50,7 @@ export function mount(root, ctx) {
     const feedback = createFeedback();
     const boardEl = h('div', {
       class: 'pp-board',
-      style: `grid-template-columns: repeat(${n}, auto)`,
+      style: `grid-template-columns: repeat(${n}, auto); --n: ${n}`,
       role: 'group',
       'aria-label': 'Vamzdžių plytelės',
     });

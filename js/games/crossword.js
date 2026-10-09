@@ -159,7 +159,7 @@ export function mount(root, ctx) {
       const activeKeys = new Set(words[active].keys);
       const grid = h('div', {
         class: 'cw-grid',
-        style: `grid-template-columns: repeat(${cols}, auto)`,
+        style: `grid-template-columns: repeat(${cols}, auto); --n: ${cols}`,
         role: 'group',
         'aria-label': 'Kryžiažodžio tinklelis',
       });

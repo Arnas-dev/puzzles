@@ -24,7 +24,7 @@ export function mount(root, ctx) {
     const feedback = createFeedback();
     const boardEl = h('div', {
       class: 'tl-board',
-      style: `grid-template-columns: repeat(${cols}, auto)`,
+      style: `grid-template-columns: repeat(${cols}, auto); --n: ${cols}`,
       role: 'group',
       'aria-label': 'Plytelės',
     });

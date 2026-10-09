@@ -33,8 +33,9 @@ function markDone(id) {
 }
 
 function renderTopbar(inGame) {
-  const smaller = h('button', { class: 'btn light', type: 'button', 'aria-label': 'Mažinti raides' }, 'A−');
-  const bigger = h('button', { class: 'btn light', type: 'button', 'aria-label': 'Didinti raides' }, 'A+');
+  // Matomas tekstas „A−“ įeina į prieinamą pavadinimą (balso valdymui); žodžius mato tik ekrano skaitytuvas.
+  const smaller = h('button', { class: 'btn light', type: 'button' }, 'A−', h('span', { class: 'sr-only' }, ' Mažinti raides'));
+  const bigger = h('button', { class: 'btn light', type: 'button' }, 'A+', h('span', { class: 'sr-only' }, ' Didinti raides'));
   smaller.disabled = scaleIdx === 0;
   bigger.disabled = scaleIdx === SCALES.length - 1;
   const refresh = () => {
@@ -44,7 +45,7 @@ function renderTopbar(inGame) {
   smaller.addEventListener('click', () => { scaleIdx = Math.max(0, scaleIdx - 1); applyScale(); refresh(); });
   bigger.addEventListener('click', () => { scaleIdx = Math.min(SCALES.length - 1, scaleIdx + 1); applyScale(); refresh(); });
 
-  const haloBtn = h('button', { class: 'btn light', type: 'button', 'aria-pressed': String(cursor.isOn()) }, '🔆 Žymeklis');
+  const haloBtn = h('button', { class: 'btn light halo-toggle', type: 'button', 'aria-pressed': String(cursor.isOn()) }, '🔆 Žymeklis');
   haloBtn.addEventListener('click', () => haloBtn.setAttribute('aria-pressed', String(cursor.toggle())));
 
   topbar.replaceChildren(

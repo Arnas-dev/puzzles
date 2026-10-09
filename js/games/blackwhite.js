@@ -32,7 +32,7 @@ export function mount(root, ctx) {
     const feedback = createFeedback();
     const boardEl = h('div', {
       class: 'bw-board' + (n > 4 ? ' bw-big' : ''),
-      style: `grid-template-columns: repeat(${n}, auto)`,
+      style: `grid-template-columns: repeat(${n}, auto); --n: ${n}`,
       role: 'group',
       'aria-label': 'Juodų ir baltų langelių lentelė',
     });

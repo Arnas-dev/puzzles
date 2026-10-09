@@ -24,6 +24,17 @@ let tryIdx = 0;
 export const nextGood = () => GOOD_WORDS[goodIdx++ % GOOD_WORDS.length];
 export const nextTry = () => TRY_WORDS[tryIdx++ % TRY_WORDS.length];
 
+// Telefone atsiliepimas ar mygtukai gali likti žemiau ekrano krašto. Po paspaudimo švelniai
+// pastumiame puslapį tik tiek, kad matytųsi visa apatinė juosta (arba bent atsiliepimas), ir ne daugiau.
+function keepInView(el) {
+  if (!el.scrollIntoView) return;
+  const dock = el.closest('.dock');
+  const target = dock && dock.offsetHeight <= window.innerHeight ? dock : el;
+  const r = target.getBoundingClientRect();
+  if (r.top >= 0 && r.bottom <= window.innerHeight) return;
+  target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+
 // Atsiliepimo laukelis: spalva + ženklas + tekstas, kad žinutė būtų aiški ir be spalvų.
 export function createFeedback() {
   const el = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
@@ -36,6 +47,7 @@ export function createFeedback() {
       const kids = [`${ICONS[kind] || ''} ${text}`];
       if (explain) kids.push(h('span', { class: 'explain' }, explain));
       el.replaceChildren(...kids);
+      keepInView(el);
     },
     clear() {
       el.className = 'feedback';
@@ -85,17 +97,26 @@ export function pinDock(dock) {
 }
 
 // Perskaičiuoja visas juostas po kiekvieno perpiešimo, lango ar raidžių dydžio pasikeitimo.
+// Visi trys signalai (stebėtojai ir lango dydis) sujungiami į vieną skaičiavimą per kadrą,
+// kad matavimai nevyktų po kelis kartus ir nekeistų išdėstymo nuolat.
 export function watchDocks(app) {
-  const run = () => app.querySelectorAll('.dock').forEach(pinDock);
-  const ro = new ResizeObserver(run);
+  let queued = 0;
+  const run = () => {
+    queued = 0;
+    app.querySelectorAll('.dock').forEach(pinDock);
+  };
+  const schedule = () => {
+    if (!queued) queued = requestAnimationFrame(run);
+  };
+  const ro = new ResizeObserver(schedule);
   const mo = new MutationObserver(() => {
     ro.disconnect();
     app.querySelectorAll('.game, .dock').forEach((el) => ro.observe(el));
-    run();
+    schedule();
   });
   mo.observe(app, { childList: true, subtree: true });
-  window.addEventListener('resize', run);
-  run();
+  window.addEventListener('resize', schedule);
+  schedule();
 }
 
 // Dvigubo spustelėjimo apsauga: po „Toliau“ trumpai ignoruojame spustelėjimus.

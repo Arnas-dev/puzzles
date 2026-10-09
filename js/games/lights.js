@@ -26,7 +26,7 @@ export function mount(root, ctx) {
     let solved = false;
 
     const feedback = createFeedback();
-    const boardEl = h('div', { class: 'lamps', style: `grid-template-columns: repeat(${n}, auto)`, role: 'group', 'aria-label': 'Lemputės' });
+    const boardEl = h('div', { class: 'lamps', style: `grid-template-columns: repeat(${n}, auto); --n: ${n}`, role: 'group', 'aria-label': 'Lemputės' });
     const nextBtn = h('button', { class: 'btn big green', type: 'button', hidden: true },
       level === LEVELS.length - 1 ? 'Baigti ✓' : 'Toliau →');
     const hintBtn = h('button', { class: 'btn light', type: 'button' }, '💡 Užuomina');
