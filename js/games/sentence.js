@@ -19,7 +19,7 @@ export function buildRounds() {
     options: [s.answer, ...s.wrong].map((w) => ({ id: w, label: w })),
     explain: fullSentence(s),
     build() {
-      const slot = h('span', { class: 'blank-slot' }, '______');
+      const slot = h('span', { class: 'blank-slot', 'aria-hidden': 'true' }, '______');
       const openGap = /„$/.test(s.before) ? '' : ' ';
       const closeGap = /^[.“”,!?]/.test(s.after) ? '' : ' ';
       const el = h('p', { class: 'sentence' }, s.before, openGap, slot, closeGap, s.after);
@@ -28,6 +28,7 @@ export function buildRounds() {
         reveal() {
           slot.textContent = s.answer;
           slot.classList.add('filled');
+          slot.removeAttribute('aria-hidden');
         },
       };
     },

@@ -32,10 +32,10 @@ export function createFeedback() {
     el,
     show(kind, text, explain) {
       el.className = 'feedback ' + kind;
-      el.replaceChildren(
-        `${ICONS[kind] || ''} ${text}`,
-        explain ? h('span', { class: 'explain' }, explain) : null,
-      );
+      // replaceChildren(null) įrašytų žodį „null“, todėl tuščių vaikų nepaduodame.
+      const kids = [`${ICONS[kind] || ''} ${text}`];
+      if (explain) kids.push(h('span', { class: 'explain' }, explain));
+      el.replaceChildren(...kids);
     },
     clear() {
       el.className = 'feedback';

@@ -58,7 +58,7 @@ export function buildRounds() {
       options: makeOptions(answer, tier.max).map((n) => ({ id: n, label: String(n) })),
       explain: `${eq.a} ${eq.op} ${eq.b} = ${eq.c}`,
       build() {
-        const slot = h('span', { class: 'blank-slot' }, '00');
+        const slot = h('span', { class: 'blank-slot', 'aria-hidden': 'true' }, '00');
         const part = (key) => (eq.missing === key ? slot : String(eq[key]));
         const el = h('p', { class: 'equation' }, part('a'), ` ${eq.op} `, part('b'), ' = ', part('c'));
         return {
@@ -66,6 +66,7 @@ export function buildRounds() {
           reveal() {
             slot.textContent = String(answer);
             slot.classList.add('filled');
+            slot.removeAttribute('aria-hidden');
           },
         };
       },
