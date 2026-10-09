@@ -127,11 +127,11 @@ export function mount(root, ctx) {
           return b;
         }),
       );
-      area.replaceChildren(
+      area.replaceChildren(...[
         h('div', { class: 'board-wrap' }, board),
         solved ? null : h('p', { class: 'cw-letter-help' }, 'Koks skaičius turi būti pažymėtame langelyje?'),
         numbers,
-      );
+      ].filter(Boolean));
     }
 
     root.replaceChildren(

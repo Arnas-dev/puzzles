@@ -63,11 +63,12 @@ export function mount(root, ctx) {
         el.setAttribute('aria-label',
           `Eilutė ${Math.floor(idx / n) + 1}, stulpelis ${(idx % n) + 1}, ${NAME[v]}`
           + (givens.has(idx) ? ', pradinis' : hinted.has(idx) ? ', užuomina' : ''));
-        el.replaceChildren(
+        // Null vaikų nepaduodame: replaceChildren(null) įrašytų žodį „null“.
+        el.replaceChildren(...[
           MARK[v],
           givens.has(idx) ? h('span', { class: 'bw-lock', 'aria-hidden': 'true' }, '🔒') : null,
           hinted.has(idx) ? h('span', { class: 'bw-lock', 'aria-hidden': 'true' }, '💡') : null,
-        );
+        ].filter(Boolean));
         el.disabled = solved;
       });
       undoBtn.disabled = history.length === 0 || solved;
