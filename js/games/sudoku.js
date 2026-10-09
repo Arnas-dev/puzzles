@@ -22,6 +22,7 @@ export function mount(root, ctx) {
 
     const feedback = createFeedback();
     const area = h('div', { class: 'sd-area' });
+    const choices = h('div', { class: 'sd-choices' });
     const nextBtn = h('button', { class: 'btn big green', type: 'button', hidden: true },
       level === LEVELS.length - 1 ? 'Baigti ✓' : 'Toliau →');
     const hintBtn = h('button', { class: 'btn light', type: 'button' }, '💡 Užuomina');
@@ -127,8 +128,9 @@ export function mount(root, ctx) {
           return b;
         }),
       );
-      area.replaceChildren(...[
-        h('div', { class: 'board-wrap' }, board),
+      area.replaceChildren(h('div', { class: 'board-wrap' }, board));
+      // Skaičių skydelis yra apatinėje juostoje (.dock); perpiešiame tik jo vidų.
+      choices.replaceChildren(...[
         solved ? null : h('p', { class: 'cw-letter-help' }, 'Koks skaičius turi būti pažymėtame langelyje?'),
         numbers,
       ].filter(Boolean));
@@ -140,8 +142,11 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Kiekvienoje eilutėje, stulpelyje ir storu rėmeliu apvestame kvadrate skaičiai nuo 1 iki 4 turi būti po vieną kartą.'),
         area,
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          choices,
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();

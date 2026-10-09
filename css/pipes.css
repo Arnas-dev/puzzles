@@ -10,8 +10,8 @@
 
 .pp-tile {
   position: relative;
-  width: clamp(4.5rem, 17vw, 7rem);
-  height: clamp(4.5rem, 17vw, 7rem);
+  width: clamp(4.5rem, min(17vw, 12vh), 7rem);
+  height: clamp(4.5rem, min(17vw, 12vh), 7rem);
   padding: 0;
   overflow: hidden;
   color: #6b7280;

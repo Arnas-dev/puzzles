@@ -115,9 +115,11 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Paspauskite plytelę šalia tuščios vietos, ir ji pasislinks. Išrikiuokite plyteles eilės tvarka: 1, 2, 3 ir toliau. Tuščia vieta turi likti apačioje dešinėje.'),
         h('div', { class: 'board-wrap' }, boardEl),
-        counter,
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          counter,
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();

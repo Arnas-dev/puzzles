@@ -137,10 +137,13 @@ export function mount(root, ctx) {
     hintBtn.addEventListener('click', () => {
       if (solved || lock.locked) return;
       const hint = hintCell(grid, puzzle.solution, new Set([...givens, ...hinted]));
-      if (!hint) return;
+      if (!hint) {
+        feedback.show('hint', 'Daugiau užuominų nėra.', 'Patikrinkite, ar nėra klaidų.');
+        return;
+      }
       grid[hint.index] = hint.value;
       hinted.add(hint.index);
-      afterChange({ title: 'Užuomina:', text: 'langelis su 💡 jau užpildytas teisingai.' });
+      afterChange({ title: 'Užuomina:', text: 'vieną langelį užpildėme už jus. Jis pažymėtas 💡.' });
     });
 
     nextBtn.addEventListener('click', () => {
@@ -157,8 +160,10 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Spustelėkite langelį, kad jis taptų juodas, baltas arba tuščias. Trys vienodi langeliai iš eilės negalimi. Kiekvienoje eilutėje ir kiekviename stulpelyje juodų langelių turi būti tiek pat, kiek baltų.'),
         h('div', { class: 'board-wrap' }, boardEl),
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();

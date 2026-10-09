@@ -162,8 +162,10 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Spustelėkite plytelę, kad ją pasuktumėte. Sukite plyteles, kol vanduo pasieks visus vamzdžius.'),
         h('div', { class: 'board-wrap' }, boardEl),
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     status(render());

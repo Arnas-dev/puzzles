@@ -9,8 +9,8 @@
 }
 
 .tl-tile, .tl-empty {
-  width: clamp(4.5rem, 18vw, 6.8rem);
-  height: clamp(4.5rem, 18vw, 6.8rem);
+  width: clamp(4.5rem, min(18vw, 14vh), 6.8rem);
+  height: clamp(4.5rem, min(18vw, 14vh), 6.8rem);
   border-radius: 0.8rem;
 }
 

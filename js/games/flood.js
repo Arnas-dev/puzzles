@@ -126,10 +126,12 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Paspauskite spalvos mygtuką. Viršutiniame kairiajame kampe esanti sritis pakeis spalvą ir prijungs gretimus tos pačios spalvos langelius. Visą lentą užliekite viena spalva.'),
         h('div', { class: 'board-wrap' }, boardEl),
-        counter,
-        h('div', { class: 'fl-colours' }, colourBtns),
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          counter,
+          h('div', { class: 'fl-colours' }, colourBtns),
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();

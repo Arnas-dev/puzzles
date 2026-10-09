@@ -116,8 +116,10 @@ export function mount(root, ctx) {
         progressBar(level, LEVELS.length),
         h('p', { class: 'instruction' }, 'Užgesinkite visas lemputes. Paspaudus lemputę, pasikeičia ji ir jos kaimynės: degančios užgęsta, užgesusios užsidega.'),
         h('div', { class: 'board-wrap' }, boardEl),
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, undoBtn, resetBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();

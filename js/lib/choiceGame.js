@@ -105,9 +105,12 @@ export function runChoiceGame(root, ctx, { title, instruction, buildRounds, layo
         progressBar(index, rounds.length),
         h('p', { class: 'instruction' }, instruction),
         h('div', { class: 'prompt' }, built.el),
-        h('div', { class: 'options ' + (round.layout || layout), role: 'group', 'aria-label': 'Atsakymų variantai' }, buttons),
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        // Apatinė juosta: atsakymai, atsiliepimas ir mygtukai visada lieka matomi.
+        h('div', { class: 'dock' },
+          h('div', { class: 'options ' + (round.layout || layout), role: 'group', 'aria-label': 'Atsakymų variantai' }, buttons),
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     window.scrollTo(0, 0);

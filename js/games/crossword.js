@@ -60,6 +60,8 @@ export function mount(root, ctx) {
 
     const feedback = createFeedback();
     const area = h('div', { class: 'cw-area' });
+    const panel = h('div', { class: 'cw-panel' });
+    let started = false;
     const nextBtn = h('button', { class: 'btn big green', type: 'button', hidden: true },
       puzzleIdx === CROSSWORDS.length - 1 ? 'Baigti ✓' : 'Toliau →');
     const hintBtn = h('button', { class: 'btn light', type: 'button' }, '💡 Užuomina');
@@ -207,14 +209,16 @@ export function mount(root, ctx) {
         );
       };
 
-      let panel;
+      // Raidžių skydelis yra apatinėje juostoje (.dock); perpiešiame tik jo vidų.
+      // Vaikų sąrašas be null: replaceChildren(null) įrašytų žodį „null“.
+      let panelKids = [];
       if (solved) {
-        panel = null;
+        panelKids = [];
       } else if (sel != null) {
         const w = words[active];
         const correct = letterMap.get(sel);
         const tr = tried.get(sel) || new Set();
-        panel = h('div', {},
+        panelKids = [
           h('p', { class: 'cw-letter-help' }, `${w.emoji} ${w.clue}`),
           h('p', { class: 'cw-letter-help' }, 'Kokia raidė pažymėtame langelyje?'),
           h('div', { class: 'options letters', role: 'group', 'aria-label': 'Raidžių variantai' },
@@ -227,9 +231,9 @@ export function mount(root, ctx) {
               return b;
             }),
           ),
-        );
+        ];
       } else {
-        panel = h('p', { class: 'cw-letter-help' }, 'Pasirinkite tuščią langelį arba aprašymą.');
+        panelKids = [h('p', { class: 'cw-letter-help' }, 'Pasirinkite tuščią langelį arba aprašymą.')];
       }
 
       area.replaceChildren(
@@ -237,8 +241,13 @@ export function mount(root, ctx) {
           grid,
           h('div', { class: 'cw-clues' }, clueList('A', '→ Iš kairės į dešinę'), clueList('D', '↓ Iš viršaus į apačią')),
         ),
-        panel,
       );
+      panel.replaceChildren(...panelKids.filter(Boolean));
+
+      // Pasirinktas langelis neturi likti po apatine juosta.
+      const selCell = grid.querySelector('.cw-cell.sel');
+      if (selCell && started) selCell.scrollIntoView({ block: 'nearest' });
+      started = true;
     }
 
     advance();
@@ -248,8 +257,11 @@ export function mount(root, ctx) {
         progressBar(puzzleIdx, CROSSWORDS.length, 'Kryžiažodis'),
         h('p', { class: 'instruction' }, 'Spustelėkite žodžio aprašymą arba langelį, tada pasirinkite raidę.'),
         area,
-        feedback.el,
-        h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        h('div', { class: 'dock' },
+          panel,
+          feedback.el,
+          h('div', { class: 'actions' }, hintBtn, h('span', { class: 'spacer' }), nextBtn),
+        ),
       ),
     );
     render();
