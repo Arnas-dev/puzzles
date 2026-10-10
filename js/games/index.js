@@ -92,4 +92,32 @@ export const GAMES = [
     desc: 'Užpildykite lentelę juodais ir baltais langeliais.',
     load: () => import('./blackwhite.js'),
   },
+  {
+    id: 'atminties-poros',
+    icon: '🃏',
+    title: 'Atminties poros',
+    desc: 'Raskite paveikslėlį ir jo žodį.',
+    load: () => import('./memory.js'),
+  },
+  {
+    id: 'kiek-valandu',
+    icon: '🕒',
+    title: 'Kiek valandų?',
+    desc: 'Perskaitykite laikrodį.',
+    load: () => import('./clock.js'),
+  },
+  {
+    id: 'grupes',
+    icon: '🧺',
+    title: 'Išdėliokite į grupes',
+    desc: 'Pasirinkite, kuriai grupei žodis tinka.',
+    load: () => import('./baskets.js'),
+  },
+  {
+    id: 'kiek-euru',
+    icon: '💶',
+    title: 'Kiek eurų?',
+    desc: 'Suskaičiuokite monetas ir banknotus.',
+    load: () => import('./euros.js'),
+  },
 ];

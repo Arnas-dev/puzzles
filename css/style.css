@@ -1149,3 +1149,254 @@ body.no-halo #halo { display: none; }
   .bw-board { --pad: 6px; --gap: 6px; }
   .cw-grid { --gap: 6px; }
 }
+
+
+/* ================= Atminties poros ================= */
+
+/* Atminties poros */
+
+.mem-area { margin-bottom: 0.5rem; }
+
+.mem-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  max-width: 44rem;
+  margin: 0 auto 1rem;
+}
+
+@media (min-width: 521px) {
+  .mem-grid.n6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mem-grid.n8,
+  .mem-grid.n12 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.mem-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 6rem;
+  padding: 0.3rem;
+  font: inherit;
+  color: #fff;
+  background: var(--primary);
+  border: 5px solid var(--line);
+  border-radius: 1.1rem;
+  touch-action: manipulation;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.mem-card .face {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.1;
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.mem-card.word.up .face { font-size: 1.35rem; }
+
+@media (hover: hover) {
+  .mem-card:hover:not(:disabled):not(.up) { transform: scale(1.04); background: var(--primary-dark); }
+}
+
+.mem-card:active:not(:disabled):not(.up) { transform: scale(0.97); }
+
+.mem-card.up {
+  color: var(--ink);
+  background: #fff;
+  border-color: var(--primary);
+}
+
+.mem-card.up.wrong {
+  background: var(--warn-bg);
+  border-color: var(--warn);
+}
+
+.mem-card.matched,
+.mem-card.matched:disabled {
+  color: #fff;
+  background: var(--good);
+  border-color: var(--good);
+  opacity: 1;
+}
+
+.mem-card.hint {
+  animation: pulse 1s ease-in-out infinite;
+  border-color: var(--hint);
+  box-shadow: 0 0 0 6px rgba(107, 33, 168, 0.35);
+}
+
+.mem-card.hint:not(.up) { background: var(--hint); }
+
+
+/* ================= Kiek valandų? ================= */
+
+/* Kiek valandų? */
+
+.clock-face {
+  width: min(100%, 20rem);
+  margin: 0 auto;
+}
+
+.clock-face svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.options.times {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.options.times .opt {
+  min-width: 0;
+  min-height: 5rem;
+  padding: 0.4rem;
+  font-size: 2.4rem;
+}
+
+
+/* ================= Atminties poros: plačiame ekrane kaip kitos lentos ================= */
+
+@media (min-width: 960px) {
+  .game > .mem-area {
+    flex: 1 1 30rem;
+    max-width: 44rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .game > .mem-area ~ .dock {
+    flex: 1 1 22rem;
+    margin-top: 0;
+    border-top: 0;
+    border-left: 4px solid var(--line);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+  }
+}
+
+
+/* ================= Išdėliokite į grupes ================= */
+
+.bk-prompt { padding: 1rem 1.25rem; }
+
+.bk-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 9.5rem;
+}
+
+.bk-item .sentence { font-size: 2.6rem; line-height: 1.2; }
+
+.bk-item.flying { animation: bk-fly 0.7s ease-in forwards; }
+
+@keyframes bk-fly {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(7rem) scale(0.2); opacity: 0; }
+}
+
+@keyframes bk-bump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.options.baskets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.options.baskets.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.opt.bk {
+  flex-direction: column;
+  min-width: 0;
+  min-height: 5.5rem;
+  padding: 0.5rem 0.6rem;
+  gap: 0.2rem;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.opt.bk.bump { animation: bk-bump 0.4s ease; }
+
+.bk-name { font-size: 1.6rem; font-weight: 800; overflow-wrap: break-word; max-width: 100%; }
+
+.bk-info { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 1.15rem; font-weight: 700; }
+
+.bk-count {
+  min-width: 2rem;
+  padding: 0 0.4rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: var(--primary-soft);
+  color: var(--ink);
+  border-radius: 999px;
+}
+
+.opt.bk.correct .bk-count { background: #fff; }
+
+.bk-stack { font-size: 1.5rem; line-height: 1.2; max-width: 100%; overflow-wrap: anywhere; }
+.bk-stack:empty { display: none; }
+
+@media (max-width: 640px) {
+  .options.baskets.n3 { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+  .options.baskets.n3 .opt.bk {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 0.6rem;
+    min-height: 4.5rem;
+    text-align: left;
+  }
+  .options.baskets.n3 .bk-stack { grid-column: 1 / -1; }
+  .bk-item { min-height: 8rem; }
+  .big-emoji { font-size: 5rem; }
+  .bk-item .sentence { font-size: 2.2rem; }
+}
+
+
+/* ================= Kiek eurų? ================= */
+
+.money-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 0.8rem;
+}
+
+.money-item { display: block; flex: 0 0 auto; }
+.money-item.coin { width: clamp(4.6rem, 22vw, 7rem); }
+.money-item.note { width: clamp(7.5rem, 34vw, 11rem); }
+
+.money-item svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.options.money {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.options.money .opt {
+  min-width: 0;
+  min-height: 5rem;
+  padding: 0.4rem;
+  font-size: 2.2rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 40rem) {
+  .options.money .opt { font-size: 1.9rem; }
+}
