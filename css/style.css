@@ -1400,3 +1400,236 @@ body.no-halo #halo { display: none; }
 @media (max-width: 40rem) {
   .options.money .opt { font-size: 1.9rem; }
 }
+
+
+/* ================= Sudėkite sakinį ================= */
+
+.wo-area { margin-bottom: 0.5rem; }
+
+.wo-label {
+  margin: 0.5rem 0 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.wo-answer,
+.wo-pool {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem;
+  background: var(--card);
+  border: 4px solid var(--line);
+  border-radius: 1.1rem;
+}
+
+.wo-answer { min-height: 5.2rem; }
+
+.wo-pool { min-height: 5.2rem; background: var(--primary-soft); }
+
+.wo-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  min-height: 3.5rem;
+  border: 3px dashed var(--muted);
+  border-radius: 0.9rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.wo-slot.hint {
+  border-color: var(--hint);
+  background: var(--hint-bg);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.wo-num { font-size: 1.3rem; }
+
+.wo-dot { font-size: 2rem; font-weight: 800; line-height: 1; align-self: flex-end; margin-left: -0.3rem; }
+
+.wo-word {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  max-width: 100%;
+  padding: 0.3rem 1rem;
+  font: inherit;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  color: #fff;
+  background: var(--primary);
+  border: 4px solid var(--line);
+  border-radius: 0.9rem;
+  touch-action: manipulation;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+@media (hover: hover) {
+  .wo-word:hover:not(:disabled) { transform: scale(1.04); background: var(--primary-dark); }
+}
+
+.wo-word:active:not(:disabled) { transform: scale(0.97); }
+
+.wo-word.placed {
+  color: var(--ink);
+  background: #fff;
+  border-color: var(--primary);
+}
+
+@media (hover: hover) {
+  .wo-word.placed:hover:not(:disabled) { background: var(--primary-soft); }
+}
+
+.wo-word.placed.good,
+.wo-word.placed.good:disabled {
+  color: #fff;
+  background: var(--good);
+  border-color: var(--good);
+  opacity: 1;
+}
+
+.wo-word.hint {
+  animation: pulse 1s ease-in-out infinite;
+  border-color: var(--hint);
+  box-shadow: 0 0 0 6px rgba(107, 33, 168, 0.35);
+}
+
+.wo-done {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  color: var(--good);
+  background: var(--good-bg);
+  border: 4px solid var(--good);
+  border-radius: 1rem;
+}
+
+@media (max-width: 640px) {
+  .wo-word { font-size: 1.6rem; padding: 0.3rem 0.8rem; }
+  .wo-done { font-size: 2rem; }
+}
+
+@media (min-width: 960px) {
+  .game.wo-game > .wo-area {
+    flex: 1 1 30rem;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .game.wo-game > .wo-area ~ .dock {
+    flex: 1 1 22rem;
+    margin-top: 0;
+    border-top: 0;
+    border-left: 4px solid var(--line);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+  }
+}
+
+
+/* ================= Šviesos (Light Up) ================= */
+
+.lu-board, .lu-cell { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+.lu-count {
+  margin: 0 0 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.lu-board {
+  --pad: 0.6rem;
+  --gap: 5px;
+  --want: clamp(4.5rem, min(15vw, calc(12 * var(--vh))), 6.5rem);
+  --cell: min(var(--want), calc((var(--avail) - 2 * var(--pad) - (var(--n, 4) - 1) * var(--gap)) / var(--n, 4)));
+  display: grid;
+  gap: var(--gap);
+  padding: var(--pad);
+  background: var(--line);
+  border-radius: 1rem;
+}
+.lu-s5 { --want: clamp(3.8rem, min(14vw, calc(10.5 * var(--vh))), 6rem); }
+.lu-s6 { --want: clamp(3.1rem, min(13vw, calc(9 * var(--vh))), 5.5rem); }
+
+.lu-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cell);
+  height: var(--cell);
+  padding: 0;
+  font: inherit;
+  font-size: min(3rem, calc(var(--cell) * 0.55));
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink);
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: 0.5rem;
+  touch-action: manipulation;
+}
+
+.lu-lamp { font-size: min(2.8rem, calc(var(--cell) * 0.55)); line-height: 1; }
+
+/* Apšviestas langelis: geltonas fonas ir taškas (ne tik spalva). */
+.lu-cell.lit { background: var(--lamp-on); }
+.lu-cell.lamp { background: #ffe680; }
+.lu-glow {
+  width: 22%;
+  height: 22%;
+  background: #8a5a00;
+  border-radius: 50%;
+}
+
+.lu-cell.lamp.hinted { border-color: var(--hint); box-shadow: inset 0 0 0 3px var(--hint); }
+
+@media (hover: hover) {
+  .lu-cell:hover:not(:disabled):not(.lu-block) { border-color: var(--focus); }
+}
+.lu-cell:active:not(:disabled):not(.lu-block) { border-color: var(--focus); }
+
+.lu-block { color: #fff; background: #111; }
+.lu-num { font-size: min(3rem, calc(var(--cell) * 0.6)); }
+.lu-num.done { color: #b7f5c8; }
+.lu-num.over { box-shadow: inset 0 0 0 4px #ff6b6b; }
+
+/* Ženklai kampe: „!“ klaida, „✓“ skaičius tinka. */
+.lu-mark {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  min-width: 1.2em;
+  font-size: max(0.95rem, calc(var(--cell) * 0.3));
+  line-height: 1.2;
+  text-align: center;
+  color: #fff;
+  background: #b00020;
+  border-radius: 0.5rem;
+}
+.lu-mark.ok { color: #0b3d1d; background: #b7f5c8; }
+
+/* Dvi lemputės šviečia viena į kitą: stori raudoni rėmeliai ir „!“. */
+.lu-cell.conflict {
+  border-color: #b00020;
+  box-shadow: 0 0 0 3px #b00020, inset 0 0 0 3px #b00020;
+  z-index: 1;
+}
+
+/* Užuomina: rodomas langelis, kuriame lemputė reikalinga ar nereikalinga. */
+.lu-cell.target-add { border-color: var(--hint); box-shadow: 0 0 0 4px var(--hint), inset 0 0 0 4px var(--hint); background: var(--hint-bg); z-index: 1; }
+.lu-cell.target-remove { border-style: dashed; border-color: var(--hint); box-shadow: 0 0 0 4px var(--hint); z-index: 1; }
+.lu-cell.target-focus { box-shadow: inset 0 0 0 4px var(--hint); outline: 4px solid var(--hint); outline-offset: -2px; z-index: 1; }
+
+.lu-cell:disabled { cursor: var(--cursor-btn); opacity: 1; }
+.lu-cell.lit:disabled, .lu-cell.lamp:disabled { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .lu-board { --pad: 6px; --gap: 6px; }
+}

@@ -120,4 +120,18 @@ export const GAMES = [
     desc: 'Suskaičiuokite monetas ir banknotus.',
     load: () => import('./euros.js'),
   },
+  {
+    id: 'sudekite-sakini',
+    icon: '🔤',
+    title: 'Sudėkite sakinį',
+    desc: 'Sudėkite žodžius į sakinį.',
+    load: () => import('./wordOrder.js'),
+  },
+  {
+    id: 'sviesos',
+    icon: '🔦',
+    title: 'Šviesos',
+    desc: 'Pastatykite lemputes taip, kad visi langeliai būtų apšviesti.',
+    load: () => import('./lightUp.js'),
+  },
 ];

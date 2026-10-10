@@ -16,6 +16,16 @@ test('WORDS: žodžiai nesikartoja, kiekvienas turi paveikslėlį', () => {
   for (const x of WORDS) assert.ok(x.e && x.g, `trūksta e/g: ${x.w}`);
 });
 
+test('WORDS: paveikslėliai nesikartoja, žodžiai 3-12 raidžių', () => {
+  const emoji = WORDS.map((x) => x.e.replace(/️/g, ''));
+  assert.equal(new Set(emoji).size, WORDS.length, 'kartojasi paveikslėlis');
+  for (const x of WORDS) {
+    const n = Array.from(x.w).length;
+    assert.ok(n >= 3 && n <= 12, `ilgis: ${x.w}`);
+  }
+  assert.ok(new Set(WORDS.map((x) => x.g)).size >= 4, 'per mažai grupių');
+});
+
 test('completeWords: žodis yra WORDS, indeksas ribose', () => {
   for (const x of COMPLETE_WORDS) {
     const word = WORD_BY_TEXT.get(x.w);
@@ -78,10 +88,10 @@ test('sentences: fullSentence tarpai ir kabutės', () => {
   assert.equal(fullSentence({ before: 'Aš skaitau', answer: 'knygą', after: '.' }), 'Aš skaitau knygą.');
 });
 
-test('categories: žodžiai yra WORDS, nesikartoja tarp kategorijų, bent 3 kiekvienoje', () => {
+test('categories: žodžiai yra WORDS, nesikartoja tarp kategorijų, bent 5 kiekvienoje', () => {
   const seen = new Map();
   for (const c of CATEGORIES) {
-    assert.ok(c.words.length >= 3, `${c.name}: per mažai žodžių`);
+    assert.ok(c.words.length >= 5,`${c.name}: per mažai žodžių`);
     assert.equal(new Set(c.words).size, c.words.length, `${c.name}: žodis kartojasi`);
     for (const w of c.words) {
       assert.ok(WORD_BY_TEXT.has(w), `${c.name}: nėra WORDS: ${w}`);

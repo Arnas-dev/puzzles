@@ -50,7 +50,7 @@ export function mount(root, ctx) {
       const stack = h('span', { class: 'bk-stack', 'aria-hidden': 'true' }, '');
       const btn = h('button', { class: 'opt bk', type: 'button', 'data-id': g },
         h('span', { class: 'bk-name' }, g),
-        h('span', { class: 'bk-info' }, h('span', { class: 'bk-label' }, 'Sudėta:'), count),
+        h('span', { class: 'bk-info' }, h('span', { class: 'bk-label' }, 'Jau sudėta:'), count),
         stack,
       );
       btn.addEventListener('click', () => choose(g, btn));
@@ -73,7 +73,7 @@ export function mount(root, ctx) {
       for (const [g, btn] of baskets) {
         btn.disabled = false;
         btn.className = 'opt bk';
-        btn.setAttribute('aria-label', `Grupė ${g}. Sudėta: ${counts.get(g)}`);
+        btn.setAttribute('aria-label', `Grupė ${g}. Jau sudėta: ${counts.get(g)}`);
       }
       hintBtn.hidden = false;
       itemCard.setAttribute('aria-label', `Žodis: ${it.word}`);
@@ -96,7 +96,7 @@ export function mount(root, ctx) {
         stackEls.get(group).textContent = sorted.get(group).map(emojiOf).join('');
         basketBtns.forEach((b) => b.classList.remove('hint'));
         btn.classList.add('correct', 'bump');
-        btn.setAttribute('aria-label', `Grupė ${group}. Sudėta: ${counts.get(group)}`);
+        btn.setAttribute('aria-label', `Grupė ${group}. Jau sudėta: ${counts.get(group)}`);
         basketBtns.forEach((b) => { if (b !== btn) b.disabled = true; });
         itemCard.classList.add('flying');
         feedback.show('good', nextGood(), explainSort(it.word, group));

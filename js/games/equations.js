@@ -11,7 +11,16 @@ const TIERS = [
   { max: 10, form: 'addend' },
   { max: 20, form: 'result' },
   { max: 20, form: 'addend' },
+  // Papildomos pakopos (6+): trūksta pirmojo skaičiaus, bet kurio skaičiaus, didesnės sumos.
+  { max: 10, form: 'first' },
+  { max: 20, form: 'first' },
+  { max: 20, form: 'any' },
+  { max: 30, form: 'result' },
+  { max: 30, form: 'any' },
 ];
+
+// Kiekvieno iš 6 raundų galimos pakopos: nuo lengvesnių prie sunkesnių, kiekvieną kartą atsitiktinė.
+const ROUND_POOLS = [[0, 1], [1, 2], [2, 3, 6], [3, 4, 6], [4, 5, 7, 9], [5, 7, 8, 10]];
 
 // Grąžina { a, op, b, c, missing } kur a op b = c, o `missing` yra 'a' | 'b' | 'c'.
 export function makeEquation(tier, rnd = Math.random) {
@@ -29,7 +38,7 @@ export function makeEquation(tier, rnd = Math.random) {
     b = randInt(1, a - 1, rnd);
     c = a - b;
   }
-  const missing = form === 'result' ? 'c' : 'b';
+  const missing = form === 'result' ? 'c' : form === 'first' ? 'a' : form === 'any' ? pick(['a', 'b', 'c'], rnd) : 'b';
   return { a, op, b, c, missing };
 }
 
@@ -48,14 +57,16 @@ export function makeOptions(answer, max, rnd = Math.random) {
   return [...set].sort((x, y) => x - y);
 }
 
-export function buildRounds() {
-  return TIERS.map((tier, i) => {
-    const eq = makeEquation(i);
+export function buildRounds(rnd = Math.random) {
+  return ROUND_POOLS.map((pool) => {
+    const i = pick(pool, rnd);
+    const tier = TIERS[i];
+    const eq = makeEquation(i, rnd);
     const answer = answerOf(eq);
     return {
       layout: 'numbers',
       correct: answer,
-      options: makeOptions(answer, tier.max).map((n) => ({ id: n, label: String(n) })),
+      options: makeOptions(answer, tier.max, rnd).map((n) => ({ id: n, label: String(n) })),
       explain: `${eq.a} ${eq.op} ${eq.b} = ${eq.c}`,
       build() {
         const slot = h('span', { class: 'blank-slot', 'aria-hidden': 'true' }, '00');

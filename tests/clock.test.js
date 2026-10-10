@@ -23,7 +23,7 @@ test('timeWords', () => {
   assert.equal(timeWords(12, 0), '12 valandų');
   assert.equal(timeWords(1, 30), '1 valanda 30 minučių');
   assert.equal(timeWords(4, 15), '4 valandos 15 minučių');
-  assert.equal(timeWords(11, 45), '11 valandų 45 minučių');
+  assert.equal(timeWords(11, 45), '11 valandų 45 minutės');
 });
 
 test('handAngles', () => {
@@ -34,9 +34,9 @@ test('handAngles', () => {
 });
 
 test('explainTime', () => {
-  assert.equal(explainTime(3, 0), 'Trumpoji rodyklė rodo 3, ilgoji rodo 12, vadinasi, yra 3 valandos.');
-  assert.equal(explainTime(7, 30), 'Trumpoji rodyklė yra tarp 7 ir 8, ilgoji rodo 6, vadinasi, yra 7 valandos 30 minučių.');
-  assert.equal(explainTime(12, 15), 'Trumpoji rodyklė yra tarp 12 ir 1, ilgoji rodo 3, vadinasi, yra 12 valandų 15 minučių.');
+  assert.equal(explainTime(3, 0), 'Trumpoji rodyklė rodo 3, ilgoji rodo 12. Taigi laikas: 3 valandos.');
+  assert.equal(explainTime(7, 30), 'Trumpoji rodyklė yra tarp 7 ir 8, ilgoji rodo 6. Taigi laikas: 7 valandos 30 minučių.');
+  assert.equal(explainTime(12, 15), 'Trumpoji rodyklė yra tarp 12 ir 1, ilgoji rodo 3. Taigi laikas: 12 valandų 15 minučių.');
 });
 
 test('makeOptions: 4 skirtingi variantai, teisingas yra tarp jų, minutės iš to paties ar lengvesnio lygio', () => {

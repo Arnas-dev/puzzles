@@ -20,10 +20,11 @@ export function hourWord(h) {
   return 'valandų';
 }
 
-// 15 minučių, 30 minučių, 45 minučių (visos baigiasi taip pat).
+// 15 minučių, 30 minučių, bet 45 minutės.
 export function timeWords(h, m) {
   const base = `${h} ${hourWord(h)}`;
-  return m === 0 ? base : `${base} ${m} minučių`;
+  if (m === 0) return base;
+  return `${base} ${m} ${m === 45 ? 'minutės' : 'minučių'}`;
 }
 
 export const nextHour = (h) => (h % 12) + 1;
@@ -39,7 +40,7 @@ export function explainTime(h, m) {
   const hourPart = m === 0
     ? `Trumpoji rodyklė rodo ${h}`
     : `Trumpoji rodyklė yra tarp ${h} ir ${nextHour(h)}`;
-  return `${hourPart}, ilgoji rodo ${minuteNumber}, vadinasi, yra ${timeWords(h, m)}.`;
+  return `${hourPart}, ilgoji rodo ${minuteNumber}. Taigi laikas: ${timeWords(h, m)}.`;
 }
 
 // Minutės nuo 12:00 (12 valandų ratu), atstumui tarp laikų.
