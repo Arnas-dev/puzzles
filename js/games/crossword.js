@@ -8,12 +8,29 @@ import { familyOf } from '../data/words.js';
 
 const EXTRA_LETTERS = 'aeiostrklnmdvbpg'.split('');
 
+const SESSION_BOARDS = 5;
+
+// Vienam žaidimui parenkame 5 lentų: lengvesnės (mažiau žodžių ir raidžių) eina pirmos, kiekvienai
+// iš 5 sunkumo grupių atsitiktinai imame po vieną, todėl kiekvieną kartą gaunasi kitaip.
+export function pickSession(all, n = SESSION_BOARDS, rnd = Math.random) {
+  const size = (def) => def.length * 100 + def.reduce((sum, w) => sum + Array.from(w.answer).length, 0);
+  const sorted = [...all].sort((a, b) => size(a) - size(b));
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const from = Math.floor((i * sorted.length) / n);
+    const to = Math.max(from + 1, Math.floor(((i + 1) * sorted.length) / n));
+    out.push(sorted[from + Math.floor(rnd() * (to - from))]);
+  }
+  return out;
+}
+
 export function mount(root, ctx) {
   const lock = makeLock();
+  const BOARDS = pickSession(CROSSWORDS);
   let puzzleIdx = 0;
 
   function showPuzzle() {
-    const def = CROSSWORDS[puzzleIdx];
+    const def = BOARDS[puzzleIdx];
     const { cells: letterMap } = buildGrid(def);
     const coords = [...letterMap.keys()].map((k) => k.split(',').map(Number));
     const rows = Math.max(...coords.map((p) => p[0])) + 1;
@@ -63,14 +80,14 @@ export function mount(root, ctx) {
     const panel = h('div', { class: 'cw-panel' });
     let started = false;
     const nextBtn = h('button', { class: 'btn big green', type: 'button', hidden: true },
-      puzzleIdx === CROSSWORDS.length - 1 ? 'Baigti ✓' : 'Toliau →');
+      puzzleIdx === BOARDS.length - 1 ? 'Baigti ✓' : 'Toliau →');
     const hintBtn = h('button', { class: 'btn light', type: 'button' }, '💡 Užuomina');
 
     nextBtn.addEventListener('click', () => {
       if (lock.locked) return;
       lock.lock();
       puzzleIdx += 1;
-      if (puzzleIdx >= CROSSWORDS.length) finish();
+      if (puzzleIdx >= BOARDS.length) finish();
       else showPuzzle();
     });
 
@@ -254,7 +271,7 @@ export function mount(root, ctx) {
     root.replaceChildren(
       h('section', { class: 'game cw-game' },
         h('h1', { class: 'game-title' }, 'Kryžiažodis'),
-        progressBar(puzzleIdx, CROSSWORDS.length, 'Kryžiažodis'),
+        progressBar(puzzleIdx, BOARDS.length, 'Kryžiažodis'),
         h('p', { class: 'instruction' }, 'Spustelėkite žodžio aprašymą arba langelį, tada pasirinkite raidę.'),
         area,
         h('div', { class: 'dock' },
